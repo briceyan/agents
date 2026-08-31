@@ -47,8 +47,8 @@ The public catalog currently includes:
 - Coding skills: `bug-fix`, `codebase-navigation`, `git-workflow`,
   `implementation`, `review`, and `verification`.
 - Outcome skills: `delivery-planning` and `research-synthesis`.
-- Toolang authoring skills: `toolang-basics`, `toolang-cap-authoring`, and
-  `toolang-flow-authoring`.
+- Toolang authoring skills: `toolang-basics`, `toolang-cap-authoring`,
+  `toolang-flow-authoring`, and `toolang-idiomatic-authoring`.
 - Services: `context7` and `github`.
 
 ## Use a Prompt
