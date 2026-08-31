@@ -1,4 +1,5 @@
 ---
+name: verification
 description: Use when validating code, tests, behavior, or release readiness.
 ---
 

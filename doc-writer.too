@@ -1,0 +1,122 @@
+with psyche briceyan/concise
+with psyche briceyan/safety
+with psyche briceyan/source-aware
+
+with skill briceyan/documentation-writing
+
+agic frame(_: Part[]) -> Text:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+  skills = documentation-writing
+
+  Writing request:
+  {{_}}
+
+  Turn the request into a compact document brief. Identify the intended reader,
+  the decision or task the document should enable, the deliverable and format,
+  source-of-truth material, constraints, and acceptance criteria. State only
+  assumptions that materially affect the result.
+
+agic collect_evidence(_: Part[], request: Part[]) -> Text:
+  recall = none
+  tools = fs/*, shell/*, web/*
+  psyches = concise, safety, source-aware
+  skills = documentation-writing
+
+  Original request:
+  {{request}}
+
+  Document brief:
+  {{_}}
+
+  Inspect the relevant local files and, only when needed, current external
+  sources. Return an evidence pack with facts, terminology, examples, existing
+  conventions, paths or URLs, and unresolved gaps. Do not invent missing
+  product behavior or treat assumptions as facts.
+
+agic draft(_: Part[], request: Part[], brief: Part[]) -> Text:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+  skills = documentation-writing
+
+  Original request:
+  {{request}}
+
+  Document brief:
+  {{brief}}
+
+  Evidence pack:
+  {{_}}
+
+  Write the complete document. Choose a structure that helps the intended
+  reader act, preserve the requested voice and format, and keep factual claims
+  traceable to the evidence. Mark genuinely unresolved information instead of
+  filling it with plausible prose.
+
+agic audit(_: Part[], request: Part[], brief: Part[], evidence: Part[]) -> Text:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+  skills = documentation-writing
+
+  Original request:
+  {{request}}
+
+  Document brief:
+  {{brief}}
+
+  Evidence pack:
+  {{evidence}}
+
+  Draft:
+  {{_}}
+
+  Audit the draft for factual support, completeness against the brief, reader
+  navigation, actionable examples, internal consistency, and unnecessary
+  prose. Return a prioritized revision memo. Do not rewrite the document yet.
+
+agic revise(_: Part[], request: Part[], brief: Part[], evidence: Part[], draft: Part[]) -> Text:
+  tools = fs/*, shell/*
+  psyches = concise, safety, source-aware
+  skills = documentation-writing
+
+  Original request:
+  {{request}}
+
+  Document brief:
+  {{brief}}
+
+  Evidence pack:
+  {{evidence}}
+
+  Draft:
+  {{draft}}
+
+  Revision memo:
+  {{_}}
+
+  Produce the complete revised document. If the request names a workspace
+  target, update that file, validate links or examples when practical, and
+  return a concise summary with the changed path and checks. Otherwise return
+  the finished document itself.
+
+flow default(_: Text) -> Text:
+  let request:
+    {{_}}
+
+  run frame
+  let brief:
+    {{_}}
+
+  run collect_evidence
+  let evidence:
+    {{_}}
+
+  run draft
+  let draft:
+    {{_}}
+
+  run audit
+  run revise

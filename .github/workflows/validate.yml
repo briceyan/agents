@@ -1,0 +1,20 @@
+name: Validate catalog
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Validate agents and caps
+        run: >-
+          uv run
+          --python 3.11
+          --with 'toolang @ git+https://github.com/openhat-ai/toolang.git@main'
+          python scripts/validate_catalog.py

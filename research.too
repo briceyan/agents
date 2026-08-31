@@ -1,0 +1,101 @@
+with psyche briceyan/concise
+with psyche briceyan/safety
+with psyche briceyan/source-aware
+
+with skill briceyan/research-synthesis
+
+agic expand_queries(_: Part[]) -> Text[]:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+  skills = research-synthesis
+
+  Research question:
+  {{_}}
+
+  Produce exactly 6 search queries that cover distinct aspects of the question.
+  Include queries that can expose disagreement, recent changes, and primary
+  sources. Return only a JSON array of query strings.
+
+agic search_web(_: Part[]):
+  recall = none
+  tools = web/*
+  psyches = concise, safety, source-aware
+  skills = research-synthesis
+
+  Search the web for this query:
+  {{_}}
+
+  Return a compact evidence bundle containing the query, useful results,
+  publication dates when available, URLs, and one sentence explaining why each
+  result matters. Prefer primary and recent sources.
+
+agic relevant(_: Part[], question: Part[]) -> Boolean:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+
+  Research question:
+  {{question}}
+
+  Evidence bundle:
+  {{_}}
+
+  Return true only when the bundle contains concrete information that helps
+  answer the question. Return only true or false.
+
+agic relevance(_: Part[], question: Part[]) -> Number:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+
+  Research question:
+  {{question}}
+
+  Evidence bundle:
+  {{_}}
+
+  Score the bundle from 0 to 10 for relevance, authority, and recency. Return
+  only the number.
+
+agic extract_findings(_: Part[], question: Part[]):
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+  skills = research-synthesis
+
+  Research question:
+  {{question}}
+
+  Evidence bundle:
+  {{_}}
+
+  Extract source-backed findings. Preserve URLs, distinguish reported facts
+  from inference, and flag uncertainty or source disagreement.
+
+agic synthesize(_: Part[], question: Part[]) -> Text:
+  recall = none
+  tools = none
+  psyches = concise, source-aware
+  skills = research-synthesis
+
+  Research question:
+  {{question}}
+
+  Findings:
+  {{_}}
+
+  Write a decision-useful research brief with an executive summary, key
+  findings, disagreements or uncertainty, source notes, and recommended next
+  questions. Cite URLs next to the claims they support.
+
+flow default(_: Text) -> Text:
+  let question:
+    {{_}}
+
+  scatter 6 expand_queries
+  map search_web par 4
+  keep relevant par 4
+  rank relevance top 8 par 4
+  map extract_findings par 4
+  gather synthesize

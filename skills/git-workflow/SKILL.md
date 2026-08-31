@@ -1,4 +1,5 @@
 ---
+name: git-workflow
 description: Use when preparing commits, branches, pushes, or pull requests.
 ---
 
