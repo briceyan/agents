@@ -29,3 +29,6 @@ agic:
     clear. For reviews, prioritize concrete bugs, regressions, missing tests, and
     maintainability risks. Before finishing code changes, run the most relevant
     checks and report exactly what passed or could not be run.
+
+    User request:
+    {{_}}
