@@ -1,4 +1,5 @@
 ---
+name: codebase-navigation
 description: Use when a task requires understanding an existing repository before editing.
 ---
 

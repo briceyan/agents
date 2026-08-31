@@ -1,4 +1,5 @@
 ---
+name: review
 description: Use when reviewing code or assessing a proposed change.
 ---
 

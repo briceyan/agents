@@ -1,0 +1,88 @@
+with psyche briceyan/concise
+with psyche briceyan/decision-ready
+with psyche briceyan/safety
+
+with skill briceyan/delivery-planning
+
+agic decompose(_: Part[], constraints?: Text) -> Text[]:
+  recall = none
+  tools = none
+  psyches = concise, decision-ready
+  skills = delivery-planning
+
+  Goal:
+  {{_}}
+
+  Constraints:
+  {{constraints}}
+
+  Decompose the goal into exactly 5 outcome-oriented workstreams. Make them
+  collectively sufficient and as independently executable as possible. Return
+  only a JSON array of workstream descriptions.
+
+agic plan_workstream(_: Part[], goal: Part[], constraints?: Text):
+  recall = none
+  tools = none
+  psyches = concise, decision-ready, safety
+  skills = delivery-planning
+
+  Goal:
+  {{goal}}
+
+  Constraints:
+  {{constraints}}
+
+  Workstream:
+  {{_}}
+
+  Produce an execution-ready workstream plan with its outcome, tasks in
+  dependency order, inputs, owner profile, exit criteria, and delivery risks.
+
+agic assemble(_: Part[], goal: Part[], constraints?: Text) -> Text:
+  recall = none
+  tools = none
+  psyches = concise, decision-ready, safety
+  skills = delivery-planning
+
+  Goal:
+  {{goal}}
+
+  Constraints:
+  {{constraints}}
+
+  Workstream plans:
+  {{_}}
+
+  Assemble one coherent delivery plan. Reconcile dependencies instead of
+  concatenating the workstreams. Include scope, non-goals, assumptions,
+  milestones, critical path, ownership, risks, success measures, and the first
+  actions to take.
+
+agic improve(_: Part[], goal: Part[], constraints?: Text) -> Text:
+  recall = none
+  tools = none
+  psyches = concise, decision-ready, safety
+  skills = delivery-planning
+
+  Goal:
+  {{goal}}
+
+  Constraints:
+  {{constraints}}
+
+  Current plan:
+  {{_}}
+
+  Find the single most consequential remaining weakness and correct it. Keep
+  useful detail, avoid invented facts, and return the complete revised plan.
+
+flow default(_: Text, constraints?: Text) -> Text:
+  let goal:
+    {{_}}
+
+  scatter 5 decompose
+  map plan_workstream par 4
+  gather assemble
+
+  repeat 2:
+    run improve
