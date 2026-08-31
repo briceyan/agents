@@ -11,6 +11,7 @@ No clone is required:
 uvx toolang run briceyan/dev
 uvx toolang run briceyan/research
 uvx toolang run briceyan/plan
+uvx toolang run briceyan/doc-writer
 uvx toolang run briceyan/toolang
 ```
 
@@ -19,6 +20,7 @@ uvx toolang run briceyan/toolang
 | `briceyan/dev` | Repository-aware implementation, debugging, and review | `Find the cause of the failing test, make the smallest fix, and verify it.` |
 | `briceyan/research` | Source-backed research with parallel search and synthesis | `Compare the strongest current approaches to evaluating coding agents.` |
 | `briceyan/plan` | Dependency-aware product and engineering delivery plans | `Plan a six-week beta for a developer tool with a four-person team.` |
+| `briceyan/doc-writer` | Evidence-grounded guides, specs, runbooks, proposals, and READMEs | `Turn the notes in docs/draft.md into an onboarding guide for new contributors.` |
 | `briceyan/toolang` | Toolang setup, cap authoring, and flow design | `Create a flow that researches alternatives, ranks evidence, and writes a brief.` |
 
 Clone an agent when you want to customize it:
@@ -46,7 +48,8 @@ The public catalog currently includes:
   `source-aware`.
 - Coding skills: `bug-fix`, `codebase-navigation`, `git-workflow`,
   `implementation`, `review`, and `verification`.
-- Outcome skills: `delivery-planning` and `research-synthesis`.
+- Outcome skills: `delivery-planning`, `documentation-writing`, and
+  `research-synthesis`.
 - Toolang authoring skills: `toolang-basics`, `toolang-cap-authoring`,
   `toolang-flow-authoring`, and `toolang-idiomatic-authoring`.
 - Services: `context7` and `github`.
