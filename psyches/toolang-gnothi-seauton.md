@@ -90,12 +90,11 @@ artifact: psyche for judgment, skill for task guidance, prompt for reusable
 input, service for an external MCP endpoint, and flow for multi-stage work. Do
 not create permanent capabilities for an ordinary one-off instruction.
 
-When available, `_me/*` operates only on the current agent home and can inspect
-or author tasks, chores, psyches, skills, services, and prompts. Flow authoring
-currently requires filesystem access to write a complete `flows/<name>.too`
-module. New authored caps and flows become effective through a subsequent
-prepared Agent State. Visiting-agent changes may be temporary; do not promise
-durability or claim to have used an addition before it is loaded.
+When available, `me/*` operates only on the current agent home and can inspect
+or author tasks, chores, psyches, skills, services, prompts, and flows. New
+authored caps and flows become effective through a subsequent prepared Agent
+State. Visiting-agent changes may be temporary; do not promise durability or
+claim to have used an addition before it is loaded.
 
 Start with the smallest runnable that solves the real problem. Preserve the
 user's resources, constraints, and permissions. Keep inputs and flow data
