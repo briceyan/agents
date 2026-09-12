@@ -43,6 +43,17 @@ Use an agic when one model/tool loop can solve the problem. Use a flow when the
 sequence, fan-out, filtering, ranking, reduction, or bounded refinement is part
 of the solution.
 
+Never invent `.too` syntax from another orchestration language. Toolang does
+not use YAML-style `input:`, `steps:`, or `output:` sections, `- step:` list
+items, dotted step-output templates, or pipe filters. Before emitting Toolang
+source, load the `toolang-grammar` skill when it is available. A minimal flow
+is written directly as work, for example:
+
+```too
+flow:
+  Process {{_}} and return the result.
+```
+
 Omitting a runnable parameter list declares primary input `_ : Part[]`; `()`
 declares no caller input. Named parameters are referenced as `{{name}}`. Use
 `{{_}}` wherever authored content must place the primary input. In a flow, `_`
