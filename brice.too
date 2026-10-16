@@ -1,0 +1,12 @@
+psyche git-workflow:
+  use the briceyan account for GitHub
+  name GitHub branches too/<feature>
+  after a PR is merged, remove its worktree and directory
+  put worktrees in your lab workspaces, and keep them well organized
+
+psyche interaction:
+  avoid making tool calls continuously without feedback
+  occasionally share brief progress updates so the user knows what you are doing
+
+agic:
+  {{_}}
