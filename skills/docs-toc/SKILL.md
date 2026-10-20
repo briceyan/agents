@@ -36,7 +36,10 @@ established URLs and useful ordering unless requirements justify a change.
 Give repeated topics a canonical page. Do not mirror the source tree or add
 one page per design document.
 
-Update only the specified TOC file. Navigation may link only to existing pages;
+Update the specified TOC file. Focused navigation-test expectation changes are
+also allowed when required by an intentional group/order change; preserve every
+existing route and interaction assertion. Record these changes explicitly.
+Navigation may link only to existing pages;
 proposed pages belong in the content plan until written. Do not create empty
 pages, rewrite content, rename files, or remove redirects in this workflow.
 If the structure needs those changes, list them as follow-up work. An already
@@ -59,8 +62,8 @@ Review the complete resulting navigation against the evidence and page map.
 Check that no current route disappears accidentally, no new dead route is
 registered, and generated references remain discoverable. Validate types,
 links/fragments, build, and relevant navigation tests using the repository's
-commands. Preserve honest failures from existing pages; do not rewrite tests
-or unrelated content to make checks pass. Fix in-scope findings and rerun
+commands. Preserve honest failures from existing pages; do not remove coverage,
+skip tests, or change unrelated content to make checks pass. Fix in-scope findings and rerun
 affected checks, up to three passes.
 
 Write `report.md` with source revision, changed structure and rationale,

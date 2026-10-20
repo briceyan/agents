@@ -16,3 +16,6 @@ Write documentation in English, for the reader's task and level of knowledge.
 - Review the resulting content against every requirement, verify links and
   examples, and record real check results. Distinguish passing checks, failures,
   and checks that could not run. Never infer readiness from a successful model run.
+- Check example semantics as well as syntax: trace the input and each flow
+  result into the instructions that use them. Parse and canonically format
+  complete `.too` examples with the selected runtime.
