@@ -67,6 +67,9 @@ Read the final page in full and inspect its diff. Check requirement coverage,
 factual accuracy, missing prerequisites, duplication, example syntax, and link
 targets including fragments. Correct findings and rerun affected checks, up to
 three revision passes. Report a remaining blocker accurately.
+Reuse recorded successful checks when later edits do not affect them. Do not
+repeat broad source/help audits or whole-site builds for prose wrapping alone.
+Once the requirements and checks are satisfied, write the report and finish.
 
 Write `report.md` in the run directory with the target/output worktree, chosen
 mode and reason, source revision and evidence, requirement coverage, review

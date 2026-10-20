@@ -75,7 +75,10 @@ Capture separate logs and actual return codes. Successful exit is insufficient:
 compare CLI root and advertised `more` commands with reference sections, and
 compare every OpenAPI operation/schema with the API page. Missing coverage is
 a generator failure. Final generation uses the shared pin, not an unrecorded
-local package.
+local package. Both generated pages must report that exact source pin and the
+runtime version. If an advertised command or `more` page cannot be inspected,
+fail generation; never turn that failure into a warning and an empty command
+list. Skipping a `more` page is valid only when the CLI does not advertise it.
 
 For failure, reproduce it and inspect the matching implementation, generator,
 and tests. Repair only `scripts/gen-cli-ref.py`, `scripts/gen-api-ref.py`, and
@@ -88,6 +91,8 @@ failures are environment blockers, not compatibility bugs.
 Rerun affected tests after repairs. Run both generator suites and repeat both
 generations; require byte-identical output. Record reproductions, fixes,
 regressions, commands, coverage, and hashes. Set status `generated` or `blocked`.
+Review repaired error paths as well as successful output, especially missing
+commands, failed help probes, and schema loading.
 
 ## Verify
 
