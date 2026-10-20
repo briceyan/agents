@@ -11,6 +11,8 @@ dedicated worktree; from a primary checkout or main/master, create a dedicated
 `codex/docs-toc-*` worktree from HEAD and transfer the current navigation bytes.
 Preserve the original checkout and unrelated changes. Keep evidence and reports
 in a unique `.toolang/docs-toc/TIMESTAMP-UUID/` directory.
+Resolve the actual workdir with `pwd`; keep all helpers and logs in that unique
+directory. Do not inspect prior runs or use shared lab or `/tmp` paths.
 
 ## Gather evidence
 

@@ -16,46 +16,37 @@ instructions. Use `gh` for GitHub access, without changing the active account or
 reading credentials. Do not commit, push, modify PRs, merge, or deploy.
 Intermediate replies contain only the manifest path, status, and a brief summary.
 
-The bundled helpers are [resolve_target.py](scripts/resolve_target.py),
+Start from the current inputs. Do not inspect prior run directories, manifests,
+or reports. Never use a shared `/tmp` pointer, helper, or log; every path belongs
+to this invocation's unique run directory. Resolve the actual workdir with `pwd`.
+
+The bundled helpers are [prepare.py](scripts/prepare.py),
+[resolve_target.py](scripts/resolve_target.py),
 [copy_sources.py](scripts/copy_sources.py), and [readiness.py](scripts/readiness.py).
 Use the bundle Source Ref supplied by the entrypoint to fetch these files from
 the **same revision**, with `gh api` and the raw media type. Save exact bytes
 under the run's `helpers/` directory. Do not reimplement their logic or fetch
 scripts from mutable main. Each helper is invoked with `python3`, except the
-resolver, which needs `uv run --no-project --with packaging python`.
+preparer and resolver, which need
+`uv run --no-project --python 3.11 --with packaging python`.
 
 ## Prepare
 
-Read the docs checkout's instructions and README. Resolve omitted source paths
-to sibling `toolang` and `tree-sitter-toolang` clones beside its primary checkout
-(`git worktree list --porcelain`). Resolve explicit paths against the initial
-workdir. Verify origins name `openhat-ai/toolang-docs`, `openhat-ai/toolang`, and
-`openhat-ai/tree-sitter-toolang`; record original HEADs and Git statuses.
+Read the docs checkout's instructions and README. Before network access, create
+`WORKDIR/.toolang/docs-refresh/TIMESTAMP-UUID/helpers/`. Fetch all four helpers
+there. Run the preparer with `--docs-repo WORKDIR --run-dir RUN_DIRECTORY
+--version REQUESTED_VERSION` and explicit source paths only when supplied.
+Pass the requested version unchanged as one argv value; use an empty string
+when omitted. Use its returned manifest path, not another directory or pointer.
+If helper acquisition fails, write a blocked manifest with the requested inputs
+and exact error in this same run directory.
 
-Before network access, create `WORKDIR/.toolang/docs-refresh/TIMESTAMP-UUID/`
-and `run.json` with status `resolving`, requested inputs, and the unique run ID.
-Use absolute paths, not the logical `lab://` workspace. Fetch source origin/tags
-and docs origin/main. Fetching refs must not move the original checkout.
-
-Execute `resolve_target.py RUNTIME_REPO REQUESTED_VERSION`, passing the literal
-requested value as one argument and an empty string when omitted. This selects
-the highest PEP 440 release reachable from origin/main, including prereleases,
-for absent/empty/`latest`; it also accepts an explicit version, tag, commit, or
-`main`. Any resolver failure immediately blocks the run; never fall back.
-
-Read the resolved runtime's `pyproject.toml` with `git show`. Find its exact
-`tree-sitter-toolang` dependency and match normalized PEP 440 versions against
-grammar tags (for example `0.4.0a6` equals `0.4.0-alpha.6`). Missing or ambiguous
-matches block the run; never use grammar main as a substitute.
-
-Create detached source worktrees and a fresh docs worktree from docs origin/main
-under this run directory, named `toolang`, `tree-sitter-toolang`, and
-`toolang-docs`. Use a new `codex/docs-sync-VERSION-RUN-ID` branch; do not reset or
-reuse branches. The manifest records `status`, `requested_version`,
-`runtime_version`, `runtime_sha`, `grammar_version`, `grammar_sha`,
-`docs_base_sha`, `docs_branch`, `invocation_workdir`, `original_checkout_paths`,
-`original_heads`, `original_statuses`, `worktrees`, `copied_sources`, `repairs`,
-`checks`, and `blockers`. The worktrees keys are the three directory names.
+The preparer resolves omitted clones beside the primary docs checkout, verifies
+origins, snapshots originals, fetches refs, resolves the literal runtime target
+and its exact grammar pin, and creates unique source/output worktrees. It writes
+a manifest even on resolution failure. A nonzero result blocks this stage:
+do not catch it as a latest request, substitute grammar main, modify the helper,
+or continue copying. Missing/ambiguous grammar pins also block the run.
 
 Read instructions in these worktrees. Run `copy_sources.py MANIFEST` to copy
 runtime `docs/authoring.md` to `docs/pages/docs/toolang-conventions.mdx` and
