@@ -149,7 +149,7 @@ class ReadinessGateTests(unittest.TestCase):
                     {
                         "name": name,
                         "status": "pass",
-                        "exit_code": 1 if name == "copy fidelity" else 0,
+                        "exit_code": 0,
                     }
                     for name in self.required
                 ]
@@ -169,11 +169,22 @@ class ReadinessGateTests(unittest.TestCase):
                 exit_code = error.code
         return exit_code, json.loads(path.read_text()), report.read_text()
 
-    def test_all_checks_pass_with_an_expected_copy_diff(self):
+    def test_all_checks_pass(self):
         exit_code, manifest, report = self.gate()
         self.assertEqual(exit_code, 0)
         self.assertEqual(manifest["status"], "ready")
         self.assertIn("**Status:** ready", report)
+
+    def test_nonzero_copy_check_blocks_even_when_marked_pass(self):
+        check = next(
+            c
+            for c in self.manifest["verification"]["checks"]
+            if c["name"] == "copy fidelity"
+        )
+        check["exit_code"] = 1
+        exit_code, manifest, _ = self.gate()
+        self.assertEqual(exit_code, 1)
+        self.assertIn("copy fidelity", manifest["readiness_gate"]["failures"])
 
     def test_preexisting_example_failure_blocks_a_ready_claim(self):
         check = next(

@@ -105,6 +105,9 @@ checks. Parse all `public/*.too` examples with the pinned runtime. Existing
 failures still prevent readiness; distinguish them accurately and keep them
 outside this workflow's repair scope. Fix only introduced defects in copied
 pages, highlighting, or generators.
+For copy fidelity, compare each page with the exact bytes produced by
+`copy_sources.render` for its pinned input. Require equality and exit 0; a raw
+diff against the unadapted source is not this check.
 
 Record `verification.checks` with exact names below, status `pass`, `failed`,
 or `not_run`, an actual `exit_code`, and evidence/log paths:

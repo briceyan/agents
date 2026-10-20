@@ -30,11 +30,7 @@ checks = {check["name"]: check for check in verification.get("checks", [])}
 failures = []
 for name in required:
     check = checks.get(name, {})
-    accepted = (0, 1) if name == "copy fidelity" else (0,)
-    if (
-        check.get("status") not in ("pass", "passed")
-        or check.get("exit_code") not in accepted
-    ):
+    if check.get("status") not in ("pass", "passed") or check.get("exit_code") != 0:
         failures.append(name)
 if manifest.get("blockers"):
     failures.append("recorded blockers")
