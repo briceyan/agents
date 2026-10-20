@@ -23,6 +23,9 @@ directory. Do not inspect prior runs or use shared lab or `/tmp` paths.
   public commands, authored language, capabilities, configuration, and runtime
   boundaries that readers need. The code resolves discrepancies with design
   docs. Do not turn old plans or internal package names into public features.
+- For bundled dependencies such as tree-sitter, inspect the version pinned by
+  the selected runtime and the corresponding local tag/revision. A different
+  version checked out in a sibling clone is not an implementation discrepancy.
 - Record the runtime HEAD and relevant dirty files. Use this checkout as it
   stands; do not fetch, reset, or select a different release. Resolve an omitted
   runtime path to the sibling of the docs repository's primary checkout.
@@ -45,16 +48,26 @@ pages, rewrite content, rename files, or remove redirects in this workflow.
 If the structure needs those changes, list them as follow-up work. An already
 suitable TOC may remain unchanged when the evidence supports that decision.
 
-Write `content-plan.md` in the run directory containing:
+Keep `content-plan.md` concise: one revised tree, one current-page mapping, and
+one prioritized job table. State evidence once; do not repeat full writing
+specifications or generate a separate essay for every page. Include:
 
 - The revised tree, including clearly marked proposed pages that are absent
   from the active navigation.
 - A mapping of current pages to their canonical place, with rationale only for
   meaningful moves or retained overlaps.
-- Prioritized content jobs: target file, purpose, concise writing requirements,
-  source paths/symbols, and owner (`sync_docs`, `write_docs`, or human decision).
-  Each writing job must be directly usable as `write_docs.too` input.
+- Prioritized job IDs, targets, rationale, and owner (`sync_docs`, `write_docs`,
+  or human decision). Give each writing job exactly one target file. Split
+  related multi-page work into jobs with explicit dependencies.
 - Evidence for material gaps and any unresolved coverage questions.
+
+Write `jobs.json` alongside it with `runtime_repo` and a `jobs` array. Each job
+has `id`, `owner`, `file`, `requirements` (a concise string), `sources` (a concise
+string identifying evidence in the selected runtime or docs repo), and
+`depends_on` (job IDs). The `write_docs` entries must map directly to the writer's
+arguments; never bundle multiple targets into `file` or ask that writer to edit
+navigation. Missing proposed pages may be writing targets, but requirements
+must not link to other absent pages until their dependencies are written.
 
 ## Review and verify
 
@@ -68,5 +81,6 @@ affected checks, up to three passes.
 
 Write `report.md` with source revision, changed structure and rationale,
 coverage findings, review corrections, actual checks/results, blockers, and the
-content-plan path. Do not commit, push, open a PR, merge, or deploy. Return the
-TOC/output worktree, report and plan paths, status, and a short summary.
+content-plan and jobs paths. Do not commit, push, open a PR, merge, or deploy.
+Return the TOC/output worktree, report, plan and jobs paths, status, and a short
+summary.
